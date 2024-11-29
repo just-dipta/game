@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Pac-Man properties
+        const pacman = {
+            x: 50,
+            y: 50,
+            size: 20,
+            speed: 2,
+            direction: { x: 0, y: 0 }
+        };
+
+        // Dot properties
+        const dots = [];
+        const dotCount = 100;
+        const dotSize = 5;
+
+        // Initialize dots
+        for (let i = 0; i < dotCount; i++) {
+            dots.push({
+                x: Math.random() * (canvas.width - dotSize),
+                y: Math.random() * (canvas.height - dotSize),
+                collected: false
+            });
+        }
+
+        // Handle keyboard input
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'ArrowUp':
+                    pacman.direction = { x: 0, y: -1 };
+                    break;
+                case 'ArrowDown':
+                    pacman.direction = { x: 0, y: 1 };
+                    break;
+                case 'ArrowLeft':
+                    pacman.direction = { x: -1, y: 0 };
+                    break;
+                case 'ArrowRight':
+                    pacman.direction = { x: 1, y: 0 };
+                    break;
+            }
+        });
+
+        // Update game state
+        function update() {
+            // Move Pac-Man
+            pacman.x += pacman.direction.x * pacman.speed;
+            pacman.y += pacman.direction.y * pacman.speed;
+
+            // Keep Pac-Man within canvas bounds
+            if (pacman.x < 0) pacman.x = 0;
+            if (pacman.x + pacman.size > canvas.width) pacman.x = canvas.width - pacman.size;
+            if (pacman.y < 0) pacman.y = 0;
+            if (pacman.y + pacman.size > canvas.height) pacman.y = canvas.height - pacman.size;
+
+            // Check for dot collection
+            for (let dot of dots) {
+                if (!dot.collected && pacman.x < dot.x + dotSize && pacman.x + pacman.size > dot.x &&
+                    pacman.y < dot.y + dotSize && pacman.y + pacman.size > dot.y) {
+                    dot.collected = true;
+                }
+            }
+        }
+
+        // Draw everything
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Pac-Man
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+            ctx.arc(pacman.x + pacman.size / 2, pacman.y + pacman.size / 2, pacman.size / 2, 0.2 * Math.PI, 1.8 * Math.PI);
+            ctx.lineTo(pacman.x + pacman.size / 2, pacman.y + pacman.size / 2);
+            ctx.fill();
+
+            // Draw dots
+            ctx.fillStyle = 'white';
+            for (let dot of dots) {
+                if (!dot.collected) {
+                    ctx.beginPath();
+                    ctx.arc(dot.x, dot.y, dotSize, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Game loop
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        gameLoop();
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Permainan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>hai kamu mau main apa?</h1>
+    <button class="button" onclick="startGame('pacman')">   pacman  </button>
+    <button class="button" onclick="startGame('tetris')">   snake   </button>
+    <button class="button" onclick="startGame('snake')" >   tetris  </button>
+    <button class="button" onclick="startGame('flappy')">Flappy Bird</button>
+
+    <script>
+        function startGame(game) {
+            switch (game) {
+                case 'pacman':
+                    window.location.href = 'pacman.html'; // Ganti dengan file Pac-Man Anda
+                    break;
+                case 'tetris':
+                    window.location.href = 'tetris.html'; // Ganti dengan file Tetris Anda
+                    break;
+                case 'snake':
+                    window.location.href = 'snake.html'; // Ganti dengan file Snake Anda
+                    break;
+                case 'flappy':
+                    window.location.href = 'flappy bird.html'; // Ganti dengan file Flappy Bird Anda
+                    break;
+                default:
+                    alert('Game tidak ditemukan!');
+            }
+        }
+    </script>
+
+</body>
+</html>
